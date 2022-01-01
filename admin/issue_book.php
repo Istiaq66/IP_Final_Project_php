@@ -2,8 +2,8 @@
 
 session_start();
 if (!isset($_SESSION["logged_in"]) || $_SESSION["logged_in"] !== true) {
-	header("location: index.php");
-	exit;
+    header("location: index.php");
+    exit;
 }
 ?>
 <!DOCTYPE html>
@@ -23,7 +23,7 @@ if (!isset($_SESSION["logged_in"]) || $_SESSION["logged_in"] !== true) {
 
 <body>
 
-<button onclick="topFunction()" id="myBtn" title="Go to top"></button>
+    <button onclick="topFunction()" id="myBtn" title="Go to top"></button>
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
@@ -36,8 +36,8 @@ if (!isset($_SESSION["logged_in"]) || $_SESSION["logged_in"] !== true) {
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown">My Profile</a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="view_profile.php">View Profile</a>
-                        <a class="dropdown-item" href="edit_profile.php"> Edit Profile</a>
+                        <a class="dropdown-item" href="view_prof.php">View Profile</a>
+                        <a class="dropdown-item" href="edit_pro.php"> Edit Profile</a>
                         <a class="dropdown-item" href="change_password.php">Change Password</a>
                     </div>
                 </li>
@@ -103,8 +103,8 @@ if (!isset($_SESSION["logged_in"]) || $_SESSION["logged_in"] !== true) {
                         </div>
                         <div class="form-group">
                             <label>Book Author:</label>
-                            <select class="form-control" name="book_author">
-                                <option">-Select author-</option>
+                            <select class="py-2 my-2" name="book_author">
+                                <option class="text-dark">-Select author-</option>
                                 <?php
                                 include 'Connection.php';
                                 $query = "select author_name from author";
@@ -116,29 +116,30 @@ if (!isset($_SESSION["logged_in"]) || $_SESSION["logged_in"] !== true) {
                                 }
                                 ?>
                             </select>
-                            <div class="form-group">
-                                <label>Book Number:</label>
-                                <input type="text" name="book_no" class="form-control" required="">
-                            </div>
-                            <div class="form-group">
-                                <label>Student ID:</label>
-                                <input type="text" name="student_id" class="form-control" required="">
-                            </div>
-                            <div class="form-group">
-                                <label>Issue Date:</label>
-                                <input type="text" name="issue_date" class="form-control" value="<?php echo date("yy-m-d"); ?>" required="">
-                            </div>
-                            <div class="form-group">
-                                <label>Due Date:</label>
-                                <input type="text" name="due_date" value="<?php echo date("yy-m-d"); ?>" class="form-control" required="">
-                            </div>
-
-                            <button class="btn btn-primary" name="issue_book">Issue Book</button>
                         </div>
-                    </form>
+                        <div class="form-group">
+                            <label>Book Number:</label>
+                            <input type="text" name="book_no" class="form-control" required="">
+                        </div>
+                        <div class="form-group">
+                            <label>Student ID:</label>
+                            <input type="text" name="student_id" class="form-control" required="">
+                        </div>
+                        <div class="form-group">
+                            <label>Issue Date:</label>
+                            <input type="text" name="issue_date" class="form-control" value="<?php echo date("yy-m-d"); ?>" required="">
+                        </div>
+                        <div class="form-group">
+                            <label>Due Date:</label>
+                            <input type="text" name="due_date" value="<?php echo date("yy-m-d"); ?>" class="form-control" required="">
+                        </div>
+
+                        <button class="btn btn-primary" name="issue_book">Issue Book</button>
                 </div>
+                </form>
             </div>
         </div>
+    </div>
     </div>
 
 
@@ -154,48 +155,48 @@ if (!isset($_SESSION["logged_in"]) || $_SESSION["logged_in"] !== true) {
 
 
 
-    
-	<script>
-		//Get the button
-		var mybutton = document.getElementById("myBtn");
 
-		// When the user scrolls down 20px from the top of the document, show the button
-		window.onscroll = function() {
-			scrollFunction()
-		};
+    <script>
+        //Get the button
+        var mybutton = document.getElementById("myBtn");
 
-		function scrollFunction() {
-			if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-				mybutton.style.display = "block";
-			} else {
-				mybutton.style.display = "none";
-			}
-		}
+        // When the user scrolls down 20px from the top of the document, show the button
+        window.onscroll = function() {
+            scrollFunction()
+        };
 
-		// When the user clicks on the button, scroll to the top of the document
-		function topFunction() {
-			document.body.scrollTop = 0;
-			document.documentElement.scrollTop = 0;
-		}
-	</script>
+        function scrollFunction() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                mybutton.style.display = "block";
+            } else {
+                mybutton.style.display = "none";
+            }
+        }
+
+        // When the user clicks on the button, scroll to the top of the document
+        function topFunction() {
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+        }
+    </script>
 
 
 </body>
+
 </html>
 
 
 <?php
 if (isset($_POST['issue_book'])) {
-     $book_no = $_POST['book_no'];
-     $book_name = $_POST['book_name'];
-	 $book_author = $_POST['book_author'];
-     $student_id = $_POST['student_id'];
-     $issue_date = $_POST['issue_date'];
-     $due_date = $_POST['due_date'];
+    $book_no = $_POST['book_no'];
+    $book_name = $_POST['book_name'];
+    $book_author = $_POST['book_author'];
+    $student_id = $_POST['student_id'];
+    $issue_date = $_POST['issue_date'];
+    $due_date = $_POST['due_date'];
     $query = "INSERT INTO issued_books(book_no,book_name,book_author,student_id,issue_date,due_date) VALUES ('$book_no','$book_name','$book_author','$student_id','$issue_date','$due_date')";
-  
-  // $query = "insert into issued_books values(null,'$_POST[book_no]','$_POST[book_name]','$_POST[book_author]',$_POST[student_id],'$_POST[issue_date]')";
-   $query_run = mysqli_query($con, $query);
 
+    // $query = "insert into issued_books values(null,'$_POST[book_no]','$_POST[book_name]','$_POST[book_author]',$_POST[student_id],'$_POST[issue_date]')";
+    $query_run = mysqli_query($con, $query);
 }
 ?>

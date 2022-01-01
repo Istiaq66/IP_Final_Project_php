@@ -36,6 +36,9 @@ while ($row = mysqli_fetch_assoc($query_run)) {
 
 
 <body>
+
+	<button onclick="topFunction()" id="myBtn" title="Go to top"></button>
+
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 		<div class="container-fluid">
 			<div class="navbar-header">
@@ -60,10 +63,10 @@ while ($row = mysqli_fetch_assoc($query_run)) {
 
 
 	</div>
-	</nav><br>
-	<span>
+	</nav>
+	<div class="py-3">
 		<marquee>Library opens at 8:00 AM and close at 8:00 PM</marquee>
-	</span><br><br>
+	</div>
 
 
 	<div class="container-fluid content-box2 ">
@@ -94,16 +97,43 @@ while ($row = mysqli_fetch_assoc($query_run)) {
 		</div>
 	</div>
 
-	<div class="fixed-bottom">
-		<footer class="bg-light text-center text-lg-start">
-			<!-- Copyright -->
-			<div class="text-center p-3 text-light bg-dark">
-				© 2021 Copyright:
-				<a class="text-light" href="https://www.istiaq66.codes/">Istiaq66.com</a>
-			</div>
-			<!-- Copyright -->
-		</footer>
-	</div>
+
+	<footer class="bg-light text-center text-lg-start">
+		<!-- Copyright -->
+		<div class="text-center p-3 text-light bg-dark">
+			© 2021 Copyright:
+			<a class="text-light" href="https://www.istiaq66.codes/">Istiaq66.com</a>
+		</div>
+		<!-- Copyright -->
+	</footer>
+
+
+
+	<script>
+		//Get the button
+		var mybutton = document.getElementById("myBtn");
+
+		// When the user scrolls down 20px from the top of the document, show the button
+		window.onscroll = function() {
+			scrollFunction()
+		};
+
+		function scrollFunction() {
+			if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+				mybutton.style.display = "block";
+			} else {
+				mybutton.style.display = "none";
+			}
+		}
+
+		// When the user clicks on the button, scroll to the top of the document
+		function topFunction() {
+			document.body.scrollTop = 0;
+			document.documentElement.scrollTop = 0;
+		}
+	</script>
+
+
 
 </body>
 
