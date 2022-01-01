@@ -74,7 +74,7 @@ if (!isset($_SESSION["logged_in"]) || $_SESSION["logged_in"] !== true) {
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link">Issue Book</a>
+                <a href="issue_book.php" class="nav-link">Issue Book</a>                
                 </li>
                 <li class="nav-item">
                     <a href="pdf_up.php" class="nav-link">PDF Books</a>

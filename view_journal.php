@@ -59,7 +59,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
 
     <div class="container-fluid admin-dash">
         <div class="container">
-            <h2 class="text-center text-light pb-4">PDF's</h2>
+            <h2 class="text-center text-light pb-4">Journals</h2>
             <table class="table table-bordered table-striped table-hover table-secondary">
                 <thead class="bg-dark text-light">
                     <tr class="text-center">

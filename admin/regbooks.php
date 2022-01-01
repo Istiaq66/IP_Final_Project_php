@@ -3,6 +3,7 @@
 require('functions.php');
 
 session_start();
+
 include 'Connection.php';
 $book_name = "";
 $author = "";
@@ -10,6 +11,7 @@ $category = "";
 $book_no = "";
 $price = "";
 $query = "select books.book_name,books.book_no,books.cat_name,books.book_price,books.book_author from books";
+
 
 ?>
 
@@ -29,10 +31,15 @@ $query = "select books.book_name,books.book_no,books.cat_name,books.book_price,b
 
 <body>
 
+
+<button onclick="topFunction()" id="myBtn" title="Go to top"></button>
+
+
+
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a class="navbar-brand" href="index.php">Library Management System(LMS)</a>
+                <a class="navbar-brand" href="index.php">HOME</a>
             </div>
             <font style="color: white"><span><strong>Welcome: <?php echo $_SESSION['name']; ?></strong></span></font>
             <font style="color: white"><span><strong>Email: <?php echo $_SESSION['email']; ?></strong></span></font>
@@ -144,6 +151,37 @@ $query = "select books.book_name,books.book_no,books.cat_name,books.book_price,b
         </div>
         <!-- Copyright -->
     </footer>
+
+
+
+	<script>
+		//Get the button
+		var mybutton = document.getElementById("myBtn");
+
+		// When the user scrolls down 20px from the top of the document, show the button
+		window.onscroll = function() {
+			scrollFunction()
+		};
+
+		function scrollFunction() {
+			if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+				mybutton.style.display = "block";
+			} else {
+				mybutton.style.display = "none";
+			}
+		}
+
+		// When the user clicks on the button, scroll to the top of the document
+		function topFunction() {
+			document.body.scrollTop = 0;
+			document.documentElement.scrollTop = 0;
+		}
+	</script>
+
+
+
+
+
 
 
 </body>

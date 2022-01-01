@@ -59,7 +59,7 @@ if (!isset($_SESSION["logged_in"]) || $_SESSION["logged_in"] !== true) {
 				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" data-toggle="dropdown">Category</a>
 					<div class="dropdown-menu">
-					<a href="add_cat.php" class="dropdown-item">Add New Category</a>
+						<a href="add_cat.php" class="dropdown-item">Add New Category</a>
 						<a href="manage_cat.php" class="dropdown-item">Manage Category</a>
 					</div>
 				</li>
@@ -71,7 +71,7 @@ if (!isset($_SESSION["logged_in"]) || $_SESSION["logged_in"] !== true) {
 					</div>
 				</li>
 				<li class="nav-item">
-				<a href="issue_book.php" class="nav-link">Issue Book</a>
+					<a href="issue_book.php" class="nav-link">Issue Book</a>
 				</li>
 				<li class="nav-item">
 					<a href="pdf_up.php" class="nav-link">PDF Books</a>
@@ -102,12 +102,35 @@ if (!isset($_SESSION["logged_in"]) || $_SESSION["logged_in"] !== true) {
 						</div>
 						<div class="form-group">
 							<label>Book Author:</label>
-							<input type="text" name="book_author" class="form-control" required="">
+							<select class="py-2 my-2" name="book_author">
+								<option class="text-dark">-Select author-</option>
+								<?php
+								include 'Connection.php';
+								$query = "select author_name from author";
+								$query_run = mysqli_query($con, $query);
+								while ($row = mysqli_fetch_assoc($query_run)) {
+								?>
+									<option><?php echo $row['author_name']; ?></option>
+								<?php
+								}
+								?>
+							</select>
 						</div>
 
 						<div class="form-group">
 							<label>Category Name:</label>
-							<input type="text" name="book_cat" class="form-control" required="">
+							<select class="py-2 my-2" name="book_cat">
+                                <option class="text-dark">-Select category-</option>
+                                <?php
+                                $query = "select cat_name from category";
+                                $query_run = mysqli_query($con, $query);
+                                while ($row = mysqli_fetch_assoc($query_run)) {
+                                ?>
+                                    <option><?php echo $row['cat_name']; ?></option>
+                                <?php
+                                }
+                                ?>
+                            </select>
 						</div>
 
 						<div class="form-group">

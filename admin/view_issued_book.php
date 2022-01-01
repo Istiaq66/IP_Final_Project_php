@@ -15,8 +15,8 @@ $issue = "";
 $due_date = "";
 
 
-$query = "select issued_books.s_no,issued_books.book_name,issued_books.book_author,issued_books.book_no,issued_books.issue_date,issued_books.due_date,users.name
- from issued_books left join users on issued_books.student_id = users.id";
+$query = "select issued_books.s_no,issued_books.book_name,issued_books.book_author,issued_books.book_no,issued_books.issue_date,issued_books.due_date,
+         users.name from issued_books left join users on issued_books.student_id = users.id";
 ?>
 
 <!DOCTYPE html>

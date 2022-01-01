@@ -2,20 +2,20 @@
 
 include 'Connection.php';
 
-if (isset($_POST['save'])) { // if save button on the form is clicked
+if (isset($_POST['save'])) {
    
 
-     // name of the uploaded file
+ 
 
     $filename = $_FILES['myfile']['name'];
 
-    // destination of the file on the server
+
     $destination = '../uploads/' . $filename;
 
-    // get the file extension
+ 
     $extension = pathinfo($filename, PATHINFO_EXTENSION);
 
-    // the physical file on a temporary uploads directory on the server
+
     $file = $_FILES['myfile']['tmp_name'];
     $size = $_FILES['myfile']['size'];
     
@@ -34,7 +34,7 @@ if (isset($_POST['save'])) { // if save button on the form is clicked
         echo 'window.location.href = "pdf_up.php";';
         echo '</script>';
     } else {
-        // move the uploaded (temporary) file to the specified destination
+    
         if (move_uploaded_file($file, $destination)) {
             $sql = "INSERT INTO files (name, size, downloads) VALUES ('$filename', '$mb', '$destination')";
             if (mysqli_query($con, $sql)) {
