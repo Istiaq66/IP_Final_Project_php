@@ -57,7 +57,7 @@ if (!isset($_SESSION["logged_in"]) || $_SESSION["logged_in"] !== true) {
 		<div class="container">
 			<div class="container d-flex justify-content-center ">
 				<div class="card shadow text-light p-5 mb-5 mt-5  bg-body rounded">
-					<form class="text-dark font-weight-bold" action="update_password.php" method="post">
+					<form class="text-dark font-weight-bold" action="update_pass.php" method="post">
 						<center>
 							<h4 style="color: cadetblue;">Change Password</h4>
 						</center>
