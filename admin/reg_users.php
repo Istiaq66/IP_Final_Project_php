@@ -1,8 +1,10 @@
 <?php
 
-require('functions.php');
-
 session_start();
+if (!isset($_SESSION["logged_in"]) || $_SESSION["logged_in"] !== true) {
+    header("location: index.php");
+    exit;
+}
 include 'Connection.php';
 $name = "";
 $email = "";
@@ -67,8 +69,8 @@ $query = "select * from users";
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown">Category</a>
                     <div class="dropdown-menu">
-                    <a href="add_cat.php" class="dropdown-item">Add New Category</a>
-						<a href="manage_cat.php" class="dropdown-item">Manage Category</a>
+                        <a href="add_cat.php" class="dropdown-item">Add New Category</a>
+                        <a href="manage_cat.php" class="dropdown-item">Manage Category</a>
                     </div>
                 </li>
                 <li class="nav-item dropdown">
@@ -79,7 +81,7 @@ $query = "select * from users";
                     </div>
                 </li>
                 <li class="nav-item">
-                <a href="issue_book.php" class="nav-link">Issue Book</a>
+                    <a href="issue_book.php" class="nav-link">Issue Book</a>
                 </li>
                 <li class="nav-item">
                     <a href="pdf_up.php" class="nav-link">PDF Books</a>
@@ -117,7 +119,7 @@ $query = "select * from users";
                     $mobile = $row['mobile'];
                     $address = $row['address'];
                 ?>
-                    <tr class=" text-center" >
+                    <tr class=" text-center">
                         <td><?php echo $name; ?></td>
                         <td><?php echo $email; ?></td>
                         <td><?php echo $mobile; ?></td>

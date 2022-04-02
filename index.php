@@ -17,6 +17,7 @@ if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
 	<script type="text/javascript" src="bootstrap-4.4.1/js/juqery_latest.js"></script>
 	<script type="text/javascript" src="bootstrap-4.4.1/js/bootstrap.min.js"></script>
 	<link rel="stylesheet" href="Style.css">
+	<script src="sweetalert.min.js"></script>
 
 </head>
 
@@ -68,9 +69,9 @@ if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
 				</div>
 
 				<div class="col-md-8 my-5" id="main_content">
-					<center>
-						<h3>User Login Form</h3>
-					</center>
+
+					<h3 class="text-center">User Login Form</h3>
+
 					<br>
 					<form class="mx-5 " action="" method="post">
 
@@ -88,25 +89,39 @@ if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
 					<?php
 					if (isset($_POST['login'])) {
 						include 'Connection.php';
-						$query = "select * from users where email = '$_POST[email]'";
+						$email = mysqli_real_escape_string($con, $_POST['email']);
+
+						$pass = mysqli_real_escape_string($con, $_POST['password']);
+
+						$query = "select * from users where email = '$email' AND password = '$pass'";
+
 						$query_run = mysqli_query($con, $query);
+						$count = mysqli_num_rows($query_run);
+
 						while ($row = mysqli_fetch_assoc($query_run)) {
-							if ($row['email'] == $_POST['email']) {
-								if ($row['password'] == $_POST['password']) {
-									$_SESSION['name'] = $row['name'];
-									$_SESSION['email'] = $row['email'];
-									$_SESSION['id'] = $row['id'];
-									$_SESSION["loggedin"] = true;
-									header("Location:user_dashboard.php");
-								} else {
+							$_SESSION['name'] = $row['name'];
+							$_SESSION['email'] = $row['email'];
+							$_SESSION['id'] = $row['id'];
+						}
+
+						if ($count == 1) {
+							$_SESSION["loggedin"] = true;
+							$_SESSION['log'] = "Login Successful";
+							header("Location:user_dashboard.php");
+						} else {
 					?>
-									<br><br>
-									<center><span class="alert-danger h3 p-2"> Wrong Password !</span></center>
+							<script>
+								swal({
+									title: "OOPS!",
+									text: "Invalied Login details",
+									icon: "warning",
+									button: "Close",
+								});
+							</script>
 					<?php
-								}
-							}
 						}
 					}
+
 					?>
 
 
@@ -117,18 +132,19 @@ if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
 
 		</div>
 
-
-		<footer class="bg-light text-center text-lg-start">
-			<!-- Copyright -->
-			<div class="text-center p-3 text-light bg-dark">
-				© 2021 Copyright:
-				<a class="text-light" href="https://www.istiaq66.codes/">Istiaq66.com</a>
-				<a href="contact.php">Contact us</a>
-			</div>
-			<!-- Copyright -->
-		</footer>
-
 	</div>
+
+	<footer class="bg-light text-center text-lg-start">
+		<!-- Copyright -->
+		<div class="text-center p-3 text-light bg-dark">
+			© 2021 Copyright:
+			<a class="text-light" href="https://www.istiaq66.codes/">Istiaq66.com</a>
+			<a href="contact.php">Contact us</a>
+		</div>
+		<!-- Copyright -->
+	</footer>
+
+
 </body>
 
 </html>

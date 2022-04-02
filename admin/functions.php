@@ -1,7 +1,4 @@
 <?php
-
-
-
 function get_user_count()
 {
     include 'Connection.php';

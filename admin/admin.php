@@ -8,7 +8,6 @@ if (!isset($_SESSION["logged_in"]) || $_SESSION["logged_in"] !== true) {
 	header("location: index.php");
 	exit;
 }
-
 ?>
 <!DOCTYPE html>
 <html>
@@ -22,11 +21,12 @@ if (!isset($_SESSION["logged_in"]) || $_SESSION["logged_in"] !== true) {
 	<script type="text/javascript" src="bootstrap-4.4.1/js/juqery_latest.js"></script>
 	<script type="text/javascript" src="bootstrap-4.4.1/js/bootstrap.min.js"></script>
 	<link rel="stylesheet" href="../Style.css">
+	<script src="../sweetalert.min.js"></script>
 </head>
 
 <body>
 
-<button onclick="topFunction()" id="myBtn" title="Go to top"></button>
+	<button onclick="topFunction()" id="myBtn" title="Go to top"></button>
 
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 		<div class="container-fluid">
@@ -105,7 +105,7 @@ if (!isset($_SESSION["logged_in"]) || $_SESSION["logged_in"] !== true) {
 						<div class="card-header">Registered Users:</div>
 						<div class="card-body">
 							<p class="card-text">No. of total users: <?php echo get_user_count(); ?> </p>
-							<a href="reg_users.php" class="btn btn-danger" target="_blank">View Registered Users</a>
+							<a href="reg_users.php" class="btn btn-danger">View Registered Users</a>
 						</div>
 					</div>
 				</div>
@@ -114,7 +114,7 @@ if (!isset($_SESSION["logged_in"]) || $_SESSION["logged_in"] !== true) {
 						<div class="card-header">Registered Books:</div>
 						<div class="card-body">
 							<p class="card-text">No. of availbale books: <?php echo get_book_count(); ?> </p>
-							<a href="regbooks.php" class="btn btn-info" target="_blank">View Registered Books</a>
+							<a href="regbooks.php" class="btn btn-info">View Registered Books</a>
 						</div>
 					</div>
 				</div>
@@ -123,7 +123,7 @@ if (!isset($_SESSION["logged_in"]) || $_SESSION["logged_in"] !== true) {
 						<div class="card-header">Registered Category:</div>
 						<div class="card-body">
 							<p class="card-text">No. of book's category: <?php echo get_catagory_count(); ?> </p>
-							<a href="regcat.php" class="btn btn-warning" target="_blank">View Categories</a>
+							<a href="regcat.php" class="btn btn-warning">View Categories</a>
 						</div>
 					</div>
 				</div>
@@ -132,7 +132,7 @@ if (!isset($_SESSION["logged_in"]) || $_SESSION["logged_in"] !== true) {
 						<div class="card-header">Registered Authors:</div>
 						<div class="card-body">
 							<p class="card-text">No. of availbale authors: <?php echo get_auth_count(); ?> </p>
-							<a href="regauth.php" class="btn btn-primary" target="_blank">View Authors</a>
+							<a href="regauth.php" class="btn btn-primary">View Authors</a>
 						</div>
 					</div>
 				</div>
@@ -143,7 +143,7 @@ if (!isset($_SESSION["logged_in"]) || $_SESSION["logged_in"] !== true) {
 						<div class="card-header">Issued Books:</div>
 						<div class="card-body">
 							<p class="card-text">No. Issued Books: <?php echo get_issued_book_count(); ?></p>
-							<a href="view_issued_book.php" class="btn btn-success" target="_blank">View Issued books</a>
+							<a href="view_issued_book.php" class="btn btn-success">View Issued books</a>
 						</div>
 					</div>
 				</div>
@@ -151,6 +151,24 @@ if (!isset($_SESSION["logged_in"]) || $_SESSION["logged_in"] !== true) {
 		</div>
 	</div>
 
+
+	<?php
+
+	if (isset($_SESSION['log']) && $_SESSION['log'] == "Login Successful") { ?>
+
+		<script>
+			swal({
+				title: "Congratulations!",
+				text: "<?php echo $_SESSION['log']; ?>",
+				icon: "success",
+				button: "Close",
+			});
+		</script>
+
+	<?php
+		unset($_SESSION['log']);
+	}
+	?>
 
 
 	<footer class="bg-light text-center text-lg-start">
@@ -190,7 +208,7 @@ if (!isset($_SESSION["logged_in"]) || $_SESSION["logged_in"] !== true) {
 
 
 
-	
+
 
 </body>
 

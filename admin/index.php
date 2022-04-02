@@ -18,6 +18,7 @@ if (isset($_SESSION["logged_in"]) && $_SESSION["logged_in"] === true) {
 	<script type="text/javascript" src="bootstrap-4.4.1/js/juqery_latest.js"></script>
 	<script type="text/javascript" src="bootstrap-4.4.1/js/bootstrap.min.js"></script>
 	<link rel="stylesheet" href="../Style.css">
+	<script src="../sweetalert.min.js"></script>
 </head>
 
 
@@ -90,30 +91,43 @@ if (isset($_SESSION["logged_in"]) && $_SESSION["logged_in"] === true) {
 
 					if (isset($_POST['login'])) {
 						include 'Connection.php';
-						$query = "select * from admin where email = '$_POST[email]'";
+						$email = mysqli_real_escape_string($con, $_POST['email']);
+
+						$pass = mysqli_real_escape_string($con, $_POST['password']);
+
+						$query = "select * from admin where email = '$email' AND password = '$pass'";
+
 						$query_run = mysqli_query($con, $query);
+						$count = mysqli_num_rows($query_run);
+
+
 						while ($row = mysqli_fetch_assoc($query_run)) {
-							if ($row['email'] == $_POST['email']) {
-								if ($row['password'] == $_POST['password']) {
-									$_SESSION['name'] = $row['name'];
-									$_SESSION['email'] = $row['email'];
-									$_SESSION['mobile'] = $row['mobile'];
-									$_SESSION['admin_id'] = $row['admin_id'];
-									$_SESSION["logged_in"] = true;
-									header("Location:admin.php");
-								} else {
+							$_SESSION['name'] = $row['name'];
+							$_SESSION['email'] = $row['email'];
+							$_SESSION['mobile'] = $row['mobile'];
+							$_SESSION['admin_id'] = $row['admin_id'];
+							$_SESSION["logged_in"] = true;
+						}
+
+						if ($count == 1) {
+							$_SESSION['log'] = "Login Successful";
+							header("Location:admin.php");
+						} else {
 					?>
-									<br><br>
-									<center>
-										<div class="alert alert-danger" role="alert">
-											<h5>Wrong Password !</h5>
-										</div>
-									</center>
+							<script>
+								swal({
+									title: "OOPS!",
+									text: "Invalied Login Details",
+									icon: "warning",
+									button: "Close",
+								});
+							</script>
+
 					<?php
-								}
-							}
 						}
 					}
+
+
 					?>
 
 

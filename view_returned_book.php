@@ -23,7 +23,7 @@ $query = mysqli_query($con, "select rnt.book_name,rnt.issue_date,due_date from r
     <link rel="stylesheet" type="text/css" href="bootstrap-4.4.1/css/bootstrap.min.css">
     <script type="text/javascript" src="bootstrap-4.4.1/js/juqery_latest.js"></script>
     <script type="text/javascript" src="bootstrap-4.4.1/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="Style.css">
 </head>
 
 

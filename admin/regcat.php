@@ -1,10 +1,7 @@
 <?php
 
-require('functions.php');
-
 session_start();
-
-if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
+if (!isset($_SESSION["logged_in"]) || $_SESSION["logged_in"] !== true) {
     header("location: index.php");
     exit;
 }
@@ -81,7 +78,7 @@ $query = "select * from category";
                     </div>
                 </li>
                 <li class="nav-item">
-                <a href="issue_book.php" class="nav-link">Issue Book</a>
+                    <a href="issue_book.php" class="nav-link">Issue Book</a>
                 </li>
                 <li class="nav-item">
                     <a href="pdf_up.php" class="nav-link">PDF Books</a>
@@ -114,12 +111,12 @@ $query = "select * from category";
                 while ($row = mysqli_fetch_assoc($query_run)) {
                     $cat_id = $row['cat_id'];
                     $cat_name = $row['cat_name'];
-                 
+
                 ?>
                     <tr class="text-center">
                         <td><?php echo $cat_id; ?></td>
                         <td><?php echo $cat_name; ?></td>
-                
+
                     </tr>
                 <?php
                 }

@@ -38,6 +38,7 @@ function get_user_returned_book_count()
 }
 
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -51,10 +52,13 @@ function get_user_returned_book_count()
 	<script type="text/javascript" src="bootstrap-4.4.1/js/juqery_latest.js"></script>
 	<script type="text/javascript" src="bootstrap-4.4.1/js/bootstrap.min.js"></script>
 	<link rel="stylesheet" href="Style.css">
+	<script src="sweetalert.min.js"></script>
 </head>
 
 
 <body>
+
+
 
 
 
@@ -149,6 +153,23 @@ function get_user_returned_book_count()
 	</div>
 
 
+	<?php
+
+	if (isset($_SESSION['log']) && $_SESSION['log'] == "Login Successful") { ?>
+
+		<script>
+			swal({
+				title: "Congratulations!",
+				text: "<?php echo $_SESSION['log']; ?>",
+				icon: "success",
+				button: "Close",
+			});
+		</script>
+
+	<?php
+		unset($_SESSION['log']);
+	}
+	?>
 
 	<footer class="bg-light text-center text-lg-start my-0">
 		<!-- Copyright -->
