@@ -15,8 +15,18 @@ $issue = "";
 $due_date = "";
 
 
+
+if (isset($_GET['page'])) {
+    $page = $_GET['page'];
+} else {
+    $page = 1;
+}
+
+$num_per_page = 05;
+$start_from = ($page - 1) * 05;
+
 $query = "select issued_books.s_no,issued_books.book_name,issued_books.book_author,issued_books.book_no,issued_books.issue_date,issued_books.due_date,
-         users.name from issued_books left join users on issued_books.student_id = users.id";
+         users.name from issued_books left join users on issued_books.student_id = users.id order by s_no desc limit $start_from,$num_per_page";
 ?>
 
 <!DOCTYPE html>
@@ -30,7 +40,7 @@ $query = "select issued_books.s_no,issued_books.book_name,issued_books.book_auth
     <link rel="stylesheet" type="text/css" href="bootstrap-4.4.1/css/bootstrap.min.css">
     <script type="text/javascript" src="bootstrap-4.4.1/js/juqery_latest.js"></script>
     <script type="text/javascript" src="bootstrap-4.4.1/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../tyle.css">
 </head>
 
 <body>
@@ -139,6 +149,32 @@ $query = "select issued_books.s_no,issued_books.book_name,issued_books.book_auth
                 ?>
 
             </table>
+
+
+            <?php
+
+            $pr_query  = "select * from issued_books";
+            $pr_result = mysqli_query($con, $pr_query);
+            $total_record = mysqli_num_rows($pr_result);
+
+            $total_pages = ceil($total_record / $num_per_page);
+
+
+            if ($page > 1) {
+                echo "<a href='view_issued_book.php?page=" . ($page - 1) . "' class='btn btn-danger mx-1 mb-5'>Previous</a>";
+            }
+
+            for ($i = 1; $i < $total_pages; $i++) {
+                echo "<a href='view_issued_book.php?page=" . $i . "'class='btn btn-primary mx-1 mb-5'>" . $i . "</a>";
+            }
+
+            if ($i > $page) {
+                echo "<a href='view_issued_book.php?page=" . ($page + 1) . "' class='btn btn-danger mx-1 mb-5'>Next</a>";
+            }
+
+            ?>
+
+
         </div>
     </div>
 

@@ -17,11 +17,11 @@ if (!isset($_SESSION["logged_in"]) || $_SESSION["logged_in"] !== true) {
     <link rel="stylesheet" type="text/css" href="bootstrap-4.4.1/css/bootstrap.min.css">
     <script type="text/javascript" src="bootstrap-4.4.1/js/juqery_latest.js"></script>
     <script type="text/javascript" src="bootstrap-4.4.1/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="../Style.css">
+    <link rel="stylesheet" href="../tyle.css">
 </head>
 
 <body>
-<button onclick="topFunction()" id="myBtn" title="Go to top"></button>
+    <button onclick="topFunction()" id="myBtn" title="Go to top"></button>
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
@@ -61,8 +61,8 @@ if (!isset($_SESSION["logged_in"]) || $_SESSION["logged_in"] !== true) {
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown">Category</a>
                     <div class="dropdown-menu">
-                    <a href="add_cat.php" class="dropdown-item">Add New Category</a>
-					<a href="manage_cat.php" class="dropdown-item">Manage Category</a>
+                        <a href="add_cat.php" class="dropdown-item">Add New Category</a>
+                        <a href="manage_cat.php" class="dropdown-item">Manage Category</a>
                     </div>
                 </li>
                 <li class="nav-item dropdown">
@@ -73,7 +73,7 @@ if (!isset($_SESSION["logged_in"]) || $_SESSION["logged_in"] !== true) {
                     </div>
                 </li>
                 <li class="nav-item">
-                <a href="issue_book.php" class="nav-link">Issue Book</a>
+                    <a href="issue_book.php" class="nav-link">Issue Book</a>
                 </li>
                 <li class="nav-item">
                     <a href="pdf_up.php" class="nav-link">PDF Books</a>
@@ -128,7 +128,6 @@ if (!isset($_SESSION["logged_in"]) || $_SESSION["logged_in"] !== true) {
                                 <th>#</th>
                                 <th>Category</th>
                                 <th>Name</th>
-
                                 <td>Edit</td>
                                 <th>Delete</th>
                             </tr>
@@ -137,7 +136,16 @@ if (!isset($_SESSION["logged_in"]) || $_SESSION["logged_in"] !== true) {
                             <?php
                             include 'Connection.php';
                             $i = 1;
-                            $query = "select * from journal";
+
+                            if (isset($_GET['page'])) {
+                                $page = $_GET['page'];
+                            } else {
+                                $page = 1;
+                            }
+
+                            $num_per_page = 05;
+                            $start_from = ($page - 1) * 05;
+                            $query = "select * from journal order by id desc  limit $start_from,$num_per_page";
                             $query_run = mysqli_query($con, $query);
                             while ($row = mysqli_fetch_array($query_run)) {
                             ?>
@@ -208,8 +216,32 @@ if (!isset($_SESSION["logged_in"]) || $_SESSION["logged_in"] !== true) {
                             }
                     ?>
                     </table>
+
                 </div>
+
             </div>
+            <?php
+
+            $pr_query  = "select * from journal";
+            $pr_result = mysqli_query($con, $pr_query);
+            $total_record = mysqli_num_rows($pr_result);
+
+            $total_pages = ceil($total_record / $num_per_page);
+
+
+            if ($page > 1) {
+                echo "<a href='journal_up.php?page=" . ($page - 1) . "' class='btn btn-danger mx-1 mb-5'>Previous</a>";
+            }
+
+            for ($i = 1; $i < $total_pages; $i++) {
+                echo "<a href='journal_up.php?page=" . $i . "'class='btn btn-primary mx-1 mb-5'>" . $i . "</a>";
+            }
+
+            if ($i > $page) {
+                echo "<a href='journal_up.php?page=" . ($page + 1) . "' class='btn btn-danger mx-1 mb-5'>Next</a>";
+            }
+
+            ?>
         </div>
     </div>
 
@@ -230,29 +262,29 @@ if (!isset($_SESSION["logged_in"]) || $_SESSION["logged_in"] !== true) {
     </footer>
 
 
-	<script>
-		//Get the button
-		var mybutton = document.getElementById("myBtn");
+    <script>
+        //Get the button
+        var mybutton = document.getElementById("myBtn");
 
-		// When the user scrolls down 20px from the top of the document, show the button
-		window.onscroll = function() {
-			scrollFunction()
-		};
+        // When the user scrolls down 20px from the top of the document, show the button
+        window.onscroll = function() {
+            scrollFunction()
+        };
 
-		function scrollFunction() {
-			if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-				mybutton.style.display = "block";
-			} else {
-				mybutton.style.display = "none";
-			}
-		}
+        function scrollFunction() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                mybutton.style.display = "block";
+            } else {
+                mybutton.style.display = "none";
+            }
+        }
 
-		// When the user clicks on the button, scroll to the top of the document
-		function topFunction() {
-			document.body.scrollTop = 0;
-			document.documentElement.scrollTop = 0;
-		}
-	</script>
+        // When the user clicks on the button, scroll to the top of the document
+        function topFunction() {
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+        }
+    </script>
 
 
 

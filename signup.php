@@ -1,5 +1,9 @@
 <?php
-
+session_start();
+if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
+	header("location: user_dashboard.php");
+	exit;
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">

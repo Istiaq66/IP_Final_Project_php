@@ -1,8 +1,8 @@
 <?php
 session_start();
-if(!isset($_SESSION["logged_in"]) || $_SESSION["logged_in"] !== true){
-    header("location: index.php");
-    exit;
+if (!isset($_SESSION["logged_in"]) || $_SESSION["logged_in"] !== true) {
+	header("location: index.php");
+	exit;
 }
 
 ?>
@@ -17,12 +17,12 @@ if(!isset($_SESSION["logged_in"]) || $_SESSION["logged_in"] !== true){
 	<link rel="stylesheet" type="text/css" href="bootstrap-4.4.1/css/bootstrap.min.css">
 	<script type="text/javascript" src="bootstrap-4.4.1/js/juqery_latest.js"></script>
 	<script type="text/javascript" src="bootstrap-4.4.1/js/bootstrap.min.js"></script>
-	<link rel="stylesheet" href="../Style.css">
+	<link rel="stylesheet" href="../tyle.css">
 </head>
 
 <body>
 
-<button onclick="topFunction()" id="myBtn" title="Go to top"></button>
+	<button onclick="topFunction()" id="myBtn" title="Go to top"></button>
 
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 		<div class="container-fluid">
@@ -62,7 +62,7 @@ if(!isset($_SESSION["logged_in"]) || $_SESSION["logged_in"] !== true){
 					<a class="nav-link dropdown-toggle" data-toggle="dropdown">Category</a>
 					<div class="dropdown-menu">
 						<a href="add_cat.php" class="dropdown-item">Add New Category</a>
-						<a class="dropdown-item">Manage Category</a>
+						<a href="manage_cat.php" class="dropdown-item">Manage Category</a>
 					</div>
 				</li>
 				<li class="nav-item dropdown">
@@ -102,7 +102,16 @@ if(!isset($_SESSION["logged_in"]) || $_SESSION["logged_in"] !== true){
 				</thead>
 				<?php
 				include 'Connection.php';
-				$query = "select * from books";
+
+				if (isset($_GET['page'])) {
+					$page = $_GET['page'];
+				} else {
+					$page = 1;
+				}
+
+				$num_per_page = 05;
+				$start_from = ($page - 1) * 05;
+				$query = "select * from books order by book_id desc  limit $start_from,$num_per_page";
 				$query_run = mysqli_query($con, $query);
 				while ($row = mysqli_fetch_array($query_run)) {
 				?>
@@ -148,16 +157,16 @@ if(!isset($_SESSION["logged_in"]) || $_SESSION["logged_in"] !== true){
 											<div class="form-group">
 												<label>Book Name</label>
 												<input class="form-control" name="book_name" required id="book_name" value="<?php echo $result_edit_row[1] ?>">
-											
+
 												<label>Author</label>
 												<input type="text" class="form-control" value="<?php echo $result_edit_row[2] ?>" required name="book_author">
-										
+
 												<label>Category</label>
 												<input type="text" class="form-control" value="<?php echo $result_edit_row[3] ?>" required name="cat_name">
-												
+
 												<label>Book No</label>
 												<input type="number" class="form-control" value="<?php echo $result_edit_row[4] ?>" required name="book_no">
-												
+
 												<label>Price</label>
 												<input type="number" class="form-control" name="book_price" value="<?php echo $result_edit_row[5] ?>" type="text">
 
@@ -181,6 +190,28 @@ if(!isset($_SESSION["logged_in"]) || $_SESSION["logged_in"] !== true){
 				}
 				?>
 			</table>
+			<?php
+
+			$pr_query  = "select * from books";
+			$pr_result = mysqli_query($con, $pr_query);
+			$total_record = mysqli_num_rows($pr_result);
+
+			$total_pages = ceil($total_record / $num_per_page);
+
+
+			if ($page > 1) {
+				echo "<a href='manage_book.php?page=" . ($page - 1) . "' class='btn btn-danger mx-1 mb-5'>Previous</a>";
+			}
+
+			for ($i = 1; $i < $total_pages; $i++) {
+				echo "<a href='manage_book.php?page=" . $i . "'class='btn btn-primary mx-1 mb-5'>" . $i . "</a>";
+			}
+
+			if ($i > $page) {
+				echo "<a href='manage_book.php?page=" . ($page + 1) . "' class='btn btn-danger mx-1 mb-5'>Next</a>";
+			}
+
+			?>
 		</div>
 	</div>
 

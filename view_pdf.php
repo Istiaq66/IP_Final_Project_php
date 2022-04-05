@@ -1,8 +1,8 @@
 <?php
 session_start();
-if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
-    header("location: index.php");
-    exit;
+if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
+	header("location: index.php");
+	exit;
 }
 
 
@@ -19,13 +19,13 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 	<link rel="stylesheet" type="text/css" href="bootstrap-4.4.1/css/bootstrap.min.css">
 	<script type="text/javascript" src="bootstrap-4.4.1/js/juqery_latest.js"></script>
 	<script type="text/javascript" src="bootstrap-4.4.1/js/bootstrap.min.js"></script>
-	<link rel="stylesheet" href="Style.css">
+	<link rel="stylesheet" href="tyle.css">
 </head>
 
 
 <body>
 
-<button onclick="topFunction()" id="myBtn" title="Go to top"></button>
+	<button onclick="topFunction()" id="myBtn" title="Go to top"></button>
 
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 
@@ -73,7 +73,16 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 				<tbody <?php
 						include 'Connection.php';
 						$i = 1;
-						$sql = "select * from files";
+						if (isset($_GET['page'])) {
+							$page = $_GET['page'];
+						} else {
+							$page = 1;
+						}
+
+						$num_per_page = 05;
+						$start_from = ($page - 1) * 05;
+
+						$sql = "select * from files order by id desc limit $start_from,$num_per_page";
 						$result = mysqli_query($con, $sql);
 						while ($row = mysqli_fetch_assoc($result)) { ?> <tr class="text-center">
 					<td><?php echo $i++; ?></td>
@@ -88,6 +97,29 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 			?>
 
 			</table>
+
+			<?php
+
+			$pr_query  = "select * from files";
+			$pr_result = mysqli_query($con, $pr_query);
+			$total_record = mysqli_num_rows($pr_result);
+
+			$total_pages = ceil($total_record / $num_per_page);
+
+
+			if ($page > 1) {
+				echo "<a href='view_pdf.php?page=" . ($page - 1) . "' class='btn btn-danger mx-1 mb-5'>Previous</a>";
+			}
+
+			for ($i = 1; $i < $total_pages; $i++) {
+				echo "<a href='view_pdf.php?page=" . $i . "'class='btn btn-primary mx-1 mb-5'>" . $i . "</a>";
+			}
+
+			if ($i > $page) {
+				echo "<a href='view_pdf.php?page=" . ($page + 1) . "' class='btn btn-danger mx-1 mb-5'>Next</a>";
+			}
+
+			?>
 		</div>
 	</div>
 
@@ -102,7 +134,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 		<div class="text-center py-3 text-light bg-dark">
 			© 2021 Copyright:
 			<a class="text-light" href="https://www.istiaq66.codes/">Istiaq66.com</a>
-			  <a href="../contact.php">Contact us</a>
+			<a href="../contact.php">Contact us</a>
 		</div>
 		<!-- Copyright -->
 	</footer>

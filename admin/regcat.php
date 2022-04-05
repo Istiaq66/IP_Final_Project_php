@@ -8,7 +8,17 @@ if (!isset($_SESSION["logged_in"]) || $_SESSION["logged_in"] !== true) {
 
 include 'Connection.php';
 $cat_name = "";
-$query = "select * from category";
+
+
+if (isset($_GET['page'])) {
+    $page = $_GET['page'];
+} else {
+    $page = 1;
+}
+
+$num_per_page = 05;
+$start_from = ($page - 1) * 05;
+$query = "select * from category order by cat_id desc  limit $start_from,$num_per_page";
 
 ?>
 
@@ -23,7 +33,7 @@ $query = "select * from category";
     <link rel="stylesheet" type="text/css" href="bootstrap-4.4.1/css/bootstrap.min.css">
     <script type="text/javascript" src="bootstrap-4.4.1/js/juqery_latest.js"></script>
     <script type="text/javascript" src="bootstrap-4.4.1/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../tyle.css">
 </head>
 
 <body>
@@ -66,15 +76,15 @@ $query = "select * from category";
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown">Category</a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item">Add New Category</a>
-                        <a class="dropdown-item">Manage Category</a>
+                        <a  href="add_author.php" class="dropdown-item">Add New Category</a>
+                        <a  href="manage_cat.php" class="dropdown-item">Manage Category</a>
                     </div>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown">Author</a>
                     <div class="dropdown-menu">
                         <a href="add_author.php" class="dropdown-item">Add New Author</a>
-                        <a href="manage_author.php" href="" class="dropdown-item">Manage Authors</a>
+                        <a href="manage_author.php" class="dropdown-item">Manage Authors</a>
                     </div>
                 </li>
                 <li class="nav-item">
@@ -123,6 +133,32 @@ $query = "select * from category";
                 ?>
 
             </table>
+
+
+            <?php
+
+            $pr_query  = "select * from category";
+            $pr_result = mysqli_query($con, $pr_query);
+            $total_record = mysqli_num_rows($pr_result);
+
+            $total_pages = ceil($total_record / $num_per_page);
+
+
+            if ($page > 1) {
+                echo "<a href='regcat.php?page=" . ($page - 1) . "' class='btn btn-danger mx-1 mb-5'>Previous</a>";
+            }
+
+            for ($i = 1; $i < $total_pages; $i++) {
+                echo "<a href='regcat.php?page=" . $i . "'class='btn btn-primary mx-1 mb-5'>" . $i . "</a>";
+            }
+
+            if ($i > $page) {
+                echo "<a href='regcat.php?page=" . ($page + 1) . "' class='btn btn-danger mx-1 mb-5'>Next</a>";
+            }
+
+            ?>
+
+
         </div>
     </div>
 

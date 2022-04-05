@@ -9,7 +9,16 @@ if (!isset($_SESSION["logged_in"]) || $_SESSION["logged_in"] !== true) {
 include 'Connection.php';
 
 $auth_name = "";
-$query = "select * from author";
+
+if (isset($_GET['page'])) {
+    $page = $_GET['page'];
+} else {
+    $page = 1;
+}
+
+$num_per_page = 05;
+$start_from = ($page - 1) * 05;
+$query = "select * from author order by author_id desc limit $start_from,$num_per_page";
 
 ?>
 
@@ -24,7 +33,7 @@ $query = "select * from author";
     <link rel="stylesheet" type="text/css" href="bootstrap-4.4.1/css/bootstrap.min.css">
     <script type="text/javascript" src="bootstrap-4.4.1/js/juqery_latest.js"></script>
     <script type="text/javascript" src="bootstrap-4.4.1/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="../Style.css">
+    <link rel="stylesheet" href="../tyle.css">
 </head>
 
 <body>
@@ -79,7 +88,7 @@ $query = "select * from author";
                     </div>
                 </li>
                 <li class="nav-item">
-                <a href="issue_book.php" class="nav-link">Issue Book</a>
+                    <a href="issue_book.php" class="nav-link">Issue Book</a>
                 </li>
                 <li class="nav-item">
                     <a href="pdf_up.php" class="nav-link">PDF Books</a>
@@ -111,6 +120,7 @@ $query = "select * from author";
                     </tr>
                 </thead>
                 <?php
+
                 $query_run = mysqli_query($con, $query);
                 while ($row = mysqli_fetch_assoc($query_run)) {
                     $authid = $row['author_id'];
@@ -127,6 +137,28 @@ $query = "select * from author";
                 ?>
 
             </table>
+            <?php
+
+            $pr_query  = "select * from author";
+            $pr_result = mysqli_query($con, $pr_query);
+            $total_record = mysqli_num_rows($pr_result);
+
+            $total_pages = ceil($total_record / $num_per_page);
+
+
+            if ($page > 1) {
+                echo "<a href='regauth.php?page=" . ($page - 1) . "' class='btn btn-danger mx-1 mb-5'>Previous</a>";
+            }
+
+            for ($i = 1; $i < $total_pages; $i++) {
+                echo "<a href='regauth.php?page=" . $i . "'class='btn btn-primary mx-1 mb-5'>" . $i . "</a>";
+            }
+
+            if ($i > $page) {
+                echo "<a href='regauth.php?page=" . ($page + 1) . "' class='btn btn-danger mx-1 mb-5'>Next</a>";
+            }
+
+            ?>
         </div>
     </div>
 

@@ -13,7 +13,17 @@ $author = "";
 $book_no = "";
 $issue_date   = "";
 $due_date = "";
-$query = "select book_name,book_author,book_no,issue_date,due_date from issued_books where student_id = $_SESSION[id]";
+
+if (isset($_GET['page'])) {
+    $page = $_GET['page'];
+} else {
+    $page = 1;
+}
+
+$num_per_page = 05;
+$start_from = ($page - 1) * 05;
+
+$query = "select book_name,book_author,book_no,issue_date,due_date from issued_books where student_id = $_SESSION[id] order by issue_date desc limit $start_from,$num_per_page";
 
 ?>
 <!DOCTYPE html>
@@ -34,7 +44,7 @@ $query = "select book_name,book_author,book_no,issue_date,due_date from issued_b
 
 <body>
 
-<button onclick="topFunction()" id="myBtn" title="Go to top"></button>
+    <button onclick="topFunction()" id="myBtn" title="Go to top"></button>
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 
@@ -96,7 +106,7 @@ $query = "select book_name,book_author,book_no,issue_date,due_date from issued_b
                             <td><?php echo $book_name; ?></td>
                             <td><?php echo $author; ?></td>
                             <td><?php echo $book_no; ?></td>
-                            <td><?php echo $issue_date	; ?></td>
+                            <td><?php echo $issue_date; ?></td>
                             <td><?php echo $due_date; ?></td>
 
                         </tr>
@@ -105,6 +115,29 @@ $query = "select book_name,book_author,book_no,issue_date,due_date from issued_b
                     }
             ?>
             </table>
+
+            <?php
+
+            $pr_query  = "select * from issued_books where student_id = $_SESSION[id]";
+            $pr_result = mysqli_query($con, $pr_query);
+            $total_record = mysqli_num_rows($pr_result);
+
+            $total_pages = ceil($total_record / $num_per_page);
+
+
+            if ($page > 1) {
+                echo "<a href='view_issued_book.php?page=" . ($page - 1) . "' class='btn btn-danger mx-1 mb-5'>Previous</a>";
+            }
+
+            for ($i = 1; $i < $total_pages; $i++) {
+                echo "<a href='view_issued_book.php?page=" . $i . "'class='btn btn-primary mx-1 mb-5'>" . $i . "</a>";
+            }
+
+            if ($i > $page) {
+                echo "<a href='view_issued_book.php?page=" . ($page + 1) . "' class='btn btn-danger mx-1 mb-5'>Next</a>";
+            }
+
+            ?>
 
         </div>
     </div>
@@ -123,28 +156,28 @@ $query = "select book_name,book_author,book_no,issue_date,due_date from issued_b
 
 
     <script>
-		//Get the button
-		var mybutton = document.getElementById("myBtn");
+        //Get the button
+        var mybutton = document.getElementById("myBtn");
 
-		// When the user scrolls down 20px from the top of the document, show the button
-		window.onscroll = function() {
-			scrollFunction()
-		};
+        // When the user scrolls down 20px from the top of the document, show the button
+        window.onscroll = function() {
+            scrollFunction()
+        };
 
-		function scrollFunction() {
-			if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-				mybutton.style.display = "block";
-			} else {
-				mybutton.style.display = "none";
-			}
-		}
+        function scrollFunction() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                mybutton.style.display = "block";
+            } else {
+                mybutton.style.display = "none";
+            }
+        }
 
-		// When the user clicks on the button, scroll to the top of the document
-		function topFunction() {
-			document.body.scrollTop = 0;
-			document.documentElement.scrollTop = 0;
-		}
-	</script>
+        // When the user clicks on the button, scroll to the top of the document
+        function topFunction() {
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+        }
+    </script>
 
 
 

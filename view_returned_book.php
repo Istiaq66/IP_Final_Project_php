@@ -7,7 +7,17 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
 
 $con = mysqli_connect("localhost", "root", "");
 $db = mysqli_select_db($con, "final");
-$query = mysqli_query($con, "select rnt.book_name,rnt.issue_date,due_date from rnt where student_id = $_SESSION[id]");
+
+if (isset($_GET['page'])) {
+    $page = $_GET['page'];
+} else {
+    $page = 1;
+}
+
+$num_per_page = 05;
+$start_from = ($page - 1) * 05;
+
+$query = mysqli_query($con, "select rnt.book_name,rnt.issue_date,due_date from rnt where student_id = $_SESSION[id] order by issue_date desc limit $start_from,$num_per_page");
 
 
 ?>
@@ -23,7 +33,7 @@ $query = mysqli_query($con, "select rnt.book_name,rnt.issue_date,due_date from r
     <link rel="stylesheet" type="text/css" href="bootstrap-4.4.1/css/bootstrap.min.css">
     <script type="text/javascript" src="bootstrap-4.4.1/js/juqery_latest.js"></script>
     <script type="text/javascript" src="bootstrap-4.4.1/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="Style.css">
+    <link rel="stylesheet" href="tyle.css">
 </head>
 
 
@@ -92,6 +102,29 @@ $query = mysqli_query($con, "select rnt.book_name,rnt.issue_date,due_date from r
             ?>
 
             </table>
+
+            <?php
+
+            $pr_query  = "select * from rnt where student_id = $_SESSION[id]";
+            $pr_result = mysqli_query($con, $pr_query);
+            $total_record = mysqli_num_rows($pr_result);
+
+            $total_pages = ceil($total_record / $num_per_page);
+
+
+            if ($page > 1) {
+                echo "<a href='view_returned_book.php?page=" . ($page - 1) . "' class='btn btn-danger mx-1 mb-5'>Previous</a>";
+            }
+
+            for ($i = 1; $i < $total_pages; $i++) {
+                echo "<a href='view_returned_book.php?page=" . $i . "'class='btn btn-primary mx-1 mb-5'>" . $i . "</a>";
+            }
+
+            if ($i > $page) {
+                echo "<a href='view_returned_book.php?page=" . ($page + 1) . "' class='btn btn-danger mx-1 mb-5'>Next</a>";
+            }
+
+            ?>
         </div>
     </div>
 
@@ -108,28 +141,28 @@ $query = mysqli_query($con, "select rnt.book_name,rnt.issue_date,due_date from r
 
 
     <script>
-		//Get the button
-		var mybutton = document.getElementById("myBtn");
+        //Get the button
+        var mybutton = document.getElementById("myBtn");
 
-		// When the user scrolls down 20px from the top of the document, show the button
-		window.onscroll = function() {
-			scrollFunction()
-		};
+        // When the user scrolls down 20px from the top of the document, show the button
+        window.onscroll = function() {
+            scrollFunction()
+        };
 
-		function scrollFunction() {
-			if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-				mybutton.style.display = "block";
-			} else {
-				mybutton.style.display = "none";
-			}
-		}
+        function scrollFunction() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                mybutton.style.display = "block";
+            } else {
+                mybutton.style.display = "none";
+            }
+        }
 
-		// When the user clicks on the button, scroll to the top of the document
-		function topFunction() {
-			document.body.scrollTop = 0;
-			document.documentElement.scrollTop = 0;
-		}
-	</script>
+        // When the user clicks on the button, scroll to the top of the document
+        function topFunction() {
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+        }
+    </script>
 
 
 

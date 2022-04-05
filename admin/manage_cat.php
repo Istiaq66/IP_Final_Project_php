@@ -17,7 +17,7 @@ if (!isset($_SESSION["logged_in"]) || $_SESSION["logged_in"] !== true) {
     <link rel="stylesheet" type="text/css" href="bootstrap-4.4.1/css/bootstrap.min.css">
     <script type="text/javascript" src="bootstrap-4.4.1/js/juqery_latest.js"></script>
     <script type="text/javascript" src="bootstrap-4.4.1/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="../Style.css">
+    <link rel="stylesheet" href="../tyle.css">
 </head>
 
 <body>
@@ -71,7 +71,7 @@ if (!isset($_SESSION["logged_in"]) || $_SESSION["logged_in"] !== true) {
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a href="" class="nav-link">Issue Book</a>
+                    <a href="issue_book.php" class="nav-link">Issue Book</a>
                 </li>
                 <li class="nav-item">
                     <a href="pdf_up.php" class="nav-link">PDF Books</a>
@@ -100,7 +100,16 @@ if (!isset($_SESSION["logged_in"]) || $_SESSION["logged_in"] !== true) {
                 </thead>
                 <?php
                 include 'Connection.php';
-                $query = "select * from category";
+
+                if (isset($_GET['page'])) {
+                    $page = $_GET['page'];
+                } else {
+                    $page = 1;
+                }
+
+                $num_per_page = 05;
+                $start_from = ($page - 1) * 05;
+                $query = "select * from category order by cat_id desc limit $start_from,$num_per_page";
                 $query_run = mysqli_query($con, $query);
                 while ($row = mysqli_fetch_array($query_run)) {
                 ?>
@@ -161,6 +170,29 @@ if (!isset($_SESSION["logged_in"]) || $_SESSION["logged_in"] !== true) {
                 }
                 ?>
             </table>
+
+            <?php
+
+            $pr_query  = "select * from category";
+            $pr_result = mysqli_query($con, $pr_query);
+            $total_record = mysqli_num_rows($pr_result);
+
+            $total_pages = ceil($total_record / $num_per_page);
+
+
+            if ($page > 1) {
+                echo "<a href='manage_cat.php?page=" . ($page - 1) . "' class='btn btn-danger mx-1 mb-5'>Previous</a>";
+            }
+
+            for ($i = 1; $i < $total_pages; $i++) {
+                echo "<a href='manage_cat.php?page=" . $i . "'class='btn btn-primary mx-1 mb-5'>" . $i . "</a>";
+            }
+
+            if ($i > $page) {
+                echo "<a href='manage_cat.php?page=" . ($page + 1) . "' class='btn btn-danger mx-1 mb-5'>Next</a>";
+            }
+
+            ?>
         </div>
     </div>
 

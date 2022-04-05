@@ -18,7 +18,7 @@ if (!isset($_SESSION["logged_in"]) || $_SESSION["logged_in"] !== true) {
     <link rel="stylesheet" type="text/css" href="bootstrap-4.4.1/css/bootstrap.min.css">
     <script type="text/javascript" src="bootstrap-4.4.1/js/juqery_latest.js"></script>
     <script type="text/javascript" src="bootstrap-4.4.1/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="../style.css">
+    <link rel="stylesheet" type="text/css" href="../tyle.css">
 </head>
 
 
@@ -128,7 +128,17 @@ if (!isset($_SESSION["logged_in"]) || $_SESSION["logged_in"] !== true) {
                         <?php
                         include 'Connection.php';
                         $i = 1;
-                        $sql = "select * from files";
+
+                        if (isset($_GET['page'])) {
+                            $page = $_GET['page'];
+                        } else {
+                            $page = 1;
+                        }
+
+                        $num_per_page = 05;
+                        $start_from = ($page - 1) * 05;
+
+                        $sql = "select * from files order by id desc limit $start_from,$num_per_page";
                         $result = mysqli_query($con, $sql);
                         while ($row = mysqli_fetch_assoc($result)) { ?>
                             <tr class="text-center">
@@ -188,7 +198,31 @@ if (!isset($_SESSION["logged_in"]) || $_SESSION["logged_in"] !== true) {
                         <?php } ?>
                     </tbody>
                 </table>
+
+
             </div>
+            <?php
+
+            $pr_query  = "select * from files";
+            $pr_result = mysqli_query($con, $pr_query);
+            $total_record = mysqli_num_rows($pr_result);
+
+            $total_pages = ceil($total_record / $num_per_page);
+
+
+            if ($page > 1) {
+                echo "<a href='pdf_up.php?page=" . ($page - 1) . "' class='btn btn-danger mx-1 mb-5'>Previous</a>";
+            }
+
+            for ($i = 1; $i < $total_pages; $i++) {
+                echo "<a href='pdf_up.php?page=" . $i . "'class='btn btn-primary mx-1 mb-5'>" . $i . "</a>";
+            }
+
+            if ($i > $page) {
+                echo "<a href='pdf_up.php?page=" . ($page + 1) . "' class='btn btn-danger mx-1 mb-5'>Next</a>";
+            }
+
+            ?>
         </div>
     </div>
 

@@ -13,7 +13,17 @@ $author = "";
 $category = "";
 $book_no = "";
 $price = "";
-$query = "select books.book_name,books.book_no,books.cat_name,books.book_price,books.book_author from books";
+
+
+if (isset($_GET['page'])) {
+    $page = $_GET['page'];
+} else {
+    $page = 1;
+}
+
+$num_per_page = 05;
+$start_from = ($page - 1) * 05;
+$query = "select books.book_id, books.book_name,books.book_no,books.cat_name,books.book_price,books.book_author from books order by book_id desc limit $start_from,$num_per_page";
 
 
 ?>
@@ -29,13 +39,13 @@ $query = "select books.book_name,books.book_no,books.cat_name,books.book_price,b
     <link rel="stylesheet" type="text/css" href="bootstrap-4.4.1/css/bootstrap.min.css">
     <script type="text/javascript" src="bootstrap-4.4.1/js/juqery_latest.js"></script>
     <script type="text/javascript" src="bootstrap-4.4.1/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="../Style.css">
+    <link rel="stylesheet" href="../tyle.css">
 </head>
 
 <body>
 
 
-<button onclick="topFunction()" id="myBtn" title="Go to top"></button>
+    <button onclick="topFunction()" id="myBtn" title="Go to top"></button>
 
 
 
@@ -77,8 +87,8 @@ $query = "select books.book_name,books.book_no,books.cat_name,books.book_price,b
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown">Category</a>
                     <div class="dropdown-menu">
-                    <a href="add_cat.php" class="dropdown-item">Add New Category</a>
-						<a href="manage_cat.php" class="dropdown-item">Manage Category</a>
+                        <a href="add_cat.php" class="dropdown-item">Add New Category</a>
+                        <a href="manage_cat.php" class="dropdown-item">Manage Category</a>
                     </div>
                 </li>
                 <li class="nav-item dropdown">
@@ -89,7 +99,7 @@ $query = "select books.book_name,books.book_no,books.cat_name,books.book_price,b
                     </div>
                 </li>
                 <li class="nav-item">
-                <a href="issue_book.php" class="nav-link">Issue Book</a>
+                    <a href="issue_book.php" class="nav-link">Issue Book</a>
                 </li>
                 <li class="nav-item">
                     <a href="pdf_up.php" class="nav-link">PDF Books</a>
@@ -129,7 +139,7 @@ $query = "select books.book_name,books.book_no,books.cat_name,books.book_price,b
                     $price = $row['book_price'];
                     $book_no = $row['book_no'];
                 ?>
-                    <tr class=" text-center" >
+                    <tr class=" text-center">
                         <td><?php echo $book_name; ?></td>
                         <td><?php echo $author; ?></td>
                         <td><?php echo $cat; ?></td>
@@ -141,6 +151,30 @@ $query = "select books.book_name,books.book_no,books.cat_name,books.book_price,b
                 ?>
 
             </table>
+
+
+            <?php
+
+            $pr_query  = "select * from books";
+            $pr_result = mysqli_query($con, $pr_query);
+            $total_record = mysqli_num_rows($pr_result);
+
+            $total_pages = ceil($total_record / $num_per_page);
+
+
+            if ($page > 1) {
+                echo "<a href='regbooks.php?page=" . ($page - 1) . "' class='btn btn-danger mx-1 mb-5'>Previous</a>";
+            }
+
+            for ($i = 1; $i < $total_pages; $i++) {
+                echo "<a href='regbooks.php?page=" . $i . "'class='btn btn-primary mx-1 mb-5'>" . $i . "</a>";
+            }
+
+            if ($i > $page) {
+                echo "<a href='regbooks.php?page=" . ($page + 1) . "' class='btn btn-danger mx-1 mb-5'>Next</a>";
+            }
+
+            ?>
         </div>
     </div>
 
@@ -157,29 +191,29 @@ $query = "select books.book_name,books.book_no,books.cat_name,books.book_price,b
 
 
 
-	<script>
-		//Get the button
-		var mybutton = document.getElementById("myBtn");
+    <script>
+        //Get the button
+        var mybutton = document.getElementById("myBtn");
 
-		// When the user scrolls down 20px from the top of the document, show the button
-		window.onscroll = function() {
-			scrollFunction()
-		};
+        // When the user scrolls down 20px from the top of the document, show the button
+        window.onscroll = function() {
+            scrollFunction()
+        };
 
-		function scrollFunction() {
-			if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-				mybutton.style.display = "block";
-			} else {
-				mybutton.style.display = "none";
-			}
-		}
+        function scrollFunction() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                mybutton.style.display = "block";
+            } else {
+                mybutton.style.display = "none";
+            }
+        }
 
-		// When the user clicks on the button, scroll to the top of the document
-		function topFunction() {
-			document.body.scrollTop = 0;
-			document.documentElement.scrollTop = 0;
-		}
-	</script>
+        // When the user clicks on the button, scroll to the top of the document
+        function topFunction() {
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+        }
+    </script>
 
 
 
