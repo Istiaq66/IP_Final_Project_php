@@ -6,7 +6,7 @@ include 'Connection.php';
 $delete_query = "DELETE FROM files WHERE name = '$pdf'";
 $result = mysqli_query($con, $delete_query);
 
- unlink("../uploads/".$pdf);
+unlink("../uploads/".$pdf);
 
 
 

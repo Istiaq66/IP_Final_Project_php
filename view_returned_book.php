@@ -5,8 +5,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
     exit;
 }
 
-$con = mysqli_connect("localhost", "root", "");
-$db = mysqli_select_db($con, "final");
+include 'Connection.php';
 
 if (isset($_GET['page'])) {
     $page = $_GET['page'];
@@ -72,7 +71,7 @@ $query = mysqli_query($con, "select rnt.book_name,rnt.issue_date,due_date from r
 
 
 
-    <div class="container-fluid admin-dash">
+    <div class="container-fluid manage_books">
         <div class="container">
             <h3 class="text-center text-light pb-4">Returned Books</h3>
             <table class="table table-bordered table-striped table-hover table-secondary">

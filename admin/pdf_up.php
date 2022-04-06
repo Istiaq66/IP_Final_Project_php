@@ -142,6 +142,7 @@ if (!isset($_SESSION["logged_in"]) || $_SESSION["logged_in"] !== true) {
                         $result = mysqli_query($con, $sql);
                         while ($row = mysqli_fetch_assoc($result)) { ?>
                             <tr class="text-center">
+                                
                                 <td><?php echo $i++; ?></td>
                                 <td><?php echo $row['name']; ?></td>
                                 <td><?php echo $row['size']; ?></td>
@@ -166,7 +167,7 @@ if (!isset($_SESSION["logged_in"]) || $_SESSION["logged_in"] !== true) {
                                             </div>
                                             <div class="modal-body">
 
-                                                <form action="PDF_edit.php" method="post" enctype="multipart/form-data">
+                                                <form action="pdf_edit.php" method="post" enctype="multipart/form-data">
                                                     <?php
 
                                                     $id = $row['id'];
@@ -178,6 +179,7 @@ if (!isset($_SESSION["logged_in"]) || $_SESSION["logged_in"] !== true) {
 
                                                     ?>
                                                     <input id="id" type="hidden" name="id" value="<?php echo $result_edit_row[0] ?>">
+                                                    <input id="old" type="hidden" name="old" value="<?php echo $result_edit_row[1] ?>">
                                                     <div class="form-group">
                                                         <label>Name</label>
                                                         <input class="form-control" name="name" required id="name" value="<?php echo $result_edit_row[1] ?>">
