@@ -152,10 +152,10 @@ session_start();
 
 											<div class="form-group">
 
-												<input author_id="author_id" type="hidden" class="form-control" name="author_id" value="<?php echo $result_edit_row[0] ?>">
+												<input  type="hidden" class="form-control" name="author_id" value="<?php echo $result_edit_row[0] ?>">
 												<br>
 												<label>Author Name</label>
-												<input type="text" class="form-control" value="<?php echo $result_edit_row[1] ?>" required name="book_author">
+												<input type="text" class="form-control" value="<?php echo $result_edit_row[1] ?>" required name="author_name">
 												<br>
 
 

@@ -2,12 +2,11 @@
 
 include 'Connection.php';
 
-$author_id = $_POST['author_id'];
-$author_name=$_POST['author_name'];
+$id = $_POST['author_id'];
+$name = $_POST['author_name'];
 
 
-
-$update_query="UPDATE author set auhtor_id='$auhtor_id',author_name='$author_name' WHERE auhtor_id = $auhtor_id";
+$update_query="UPDATE author set author_name='$name' WHERE author_id = $id";
 
 $result=mysqli_query($con,$update_query);
 
@@ -19,5 +18,5 @@ if($result)
 }
 
     
-    header('Location:manage_author.php');
-    ?>
+  header('Location:manage_author.php');
+ ?>
