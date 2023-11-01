@@ -1,6 +1,6 @@
 # IP-Lab-Project
 
-### This is my 5th semester web development final project. It was very fun doing web development for the first time. Learned so many new things by doing this project.
+### This was my 5th-semester final project, the Library Management System, empowers library members to track their issued books, review return history, edit their profiles and download PDFs. Additionally, an admin oversees the system, ensuring seamless management and access to journals and resource.
 
 ### - [My project live demo link](http://library99.epizy.com) 
 
